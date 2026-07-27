@@ -117,6 +117,39 @@ def test_post_ingest_with_empty_csv_distinguishes_from_invalid_schema(
     assert version_count == 0
 
 
+def test_post_ingest_with_corrupted_csv_distinguishes_from_invalid_schema(
+    tmp_path, monkeypatch
+):
+    db_path = tmp_path / "test.db"
+    client = _client(db_path, monkeypatch)
+
+    fieldnames, _ = _read_fixture_rows()
+    csv_path = tmp_path / "corrupted.csv"
+    header = ",".join(fieldnames)
+    # campo com aspas nao fechadas -> EOF dentro de string, nao parseavel
+    broken_row = '"empresa sem fechar aspas,x,x,x,x,x,x'
+    csv_path.write_text(f"{header}\n{broken_row}\n", encoding="utf-8")
+
+    response = client.post(
+        "/ingest", json={"source_path": str(csv_path), "period": "2026-06"}
+    )
+
+    assert response.status_code == 422
+    detail = response.json()["detail"]
+    assert "corrompido" in detail.lower()
+    assert "schema invalido" not in detail.lower()
+
+    conn = get_connection(db_path)
+    try:
+        version_count = conn.execute(
+            "SELECT COUNT(*) FROM dataset_versions WHERE layer = 'bruto'"
+        ).fetchone()[0]
+    finally:
+        conn.close()
+
+    assert version_count == 0
+
+
 def test_get_ingest_status_returns_status_row_count_and_error_after_run(
     tmp_path, monkeypatch
 ):
