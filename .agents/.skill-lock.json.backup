@@ -1,0 +1,65 @@
+{
+  "version": 2,
+  "skills": {
+    "tlc-spec-driven": {
+      "name": "tlc-spec-driven",
+      "source": "local",
+      "contentHash": "e3d5c4dec38bff044207b31229fb28114d5fdb79f2c7200f3ec49a13a70024e1",
+      "installedAt": "2026-07-26T13:52:10.441Z",
+      "updatedAt": "2026-07-26T13:52:10.441Z",
+      "agents": [
+        "github-copilot"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "create-adr": {
+      "name": "create-adr",
+      "source": "local",
+      "contentHash": "47ec663c849e8c1620c6f33a7be0055acdcf838c27ab7c16f44260244b80195a",
+      "installedAt": "2026-07-26T14:00:34.716Z",
+      "updatedAt": "2026-07-26T14:00:34.716Z",
+      "agents": [
+        "github-copilot"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "create-rfc": {
+      "name": "create-rfc",
+      "source": "local",
+      "contentHash": "3f391b6c4397bb1590bbad511eca95c297dd0467e65385fa28b3724851c42ea8",
+      "installedAt": "2026-07-26T14:00:34.745Z",
+      "updatedAt": "2026-07-26T14:00:34.745Z",
+      "agents": [
+        "github-copilot"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "skill-architect": {
+      "name": "skill-architect",
+      "source": "local",
+      "contentHash": "349b256153447631c3ed356996c3a62fec52493d07ba75e37b12c458f9fbf6bb",
+      "installedAt": "2026-07-26T14:00:34.771Z",
+      "updatedAt": "2026-07-26T14:00:34.771Z",
+      "agents": [
+        "github-copilot"
+      ],
+      "method": "copy",
+      "global": false
+    },
+    "subagent-creator": {
+      "name": "subagent-creator",
+      "source": "local",
+      "contentHash": "bef6b5a9f23b3186af259c1041c2561e9af15fa94810009d72d775bb217aa3ca",
+      "installedAt": "2026-07-26T14:00:34.781Z",
+      "updatedAt": "2026-07-26T14:00:34.781Z",
+      "agents": [
+        "github-copilot"
+      ],
+      "method": "copy",
+      "global": false
+    }
+  }
+}

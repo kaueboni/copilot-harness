@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "promote_threshold": 2,
+  "window_days": 45,
+  "quarantine_threshold": 2,
+  "next_id": 5,
+  "lessons": [
+    {
+      "id": "L-001",
+      "key": "gate_fail::use timezone aware datetime date constructors consistently across a whole diff datetime now utc date fromisoformat a single leftover naive datetime strptime or date today call trips ruff dtz rules and fails the mandatory build gate",
+      "text": "Use timezone-aware datetime/date constructors consistently across a whole diff (datetime.now(UTC), date.fromisoformat) - a single leftover naive datetime.strptime or date.today() call trips ruff DTZ rules and fails the mandatory Build gate.",
+      "signal": "gate_fail",
+      "scope": "date-handling",
+      "status": "candidate",
+      "features": [
+        "ingestao-curadoria"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "app/aggregation/indicators.py:59-60,scripts/generate_fixture.py:62 (date-handling)"
+      ],
+      "created": "2026-07-27T02:07:07Z",
+      "last_seen": "2026-07-27T02:07:07Z"
+    },
+    {
+      "id": "L-002",
+      "key": "spec_deviation::when a spec required review audit queue is implemented as in memory only state treat it as unresolved until a persistence decision is made since in memory state does not survive process restarts or become visible to downstream consumers",
+      "text": "When a spec-required review/audit queue is implemented as in-memory-only state, treat it as unresolved until a persistence decision is made, since in-memory state does not survive process restarts or become visible to downstream consumers.",
+      "signal": "spec_deviation",
+      "scope": "versioning",
+      "status": "candidate",
+      "features": [
+        "ingestao-curadoria"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "SPEC_DEVIATION (T11) tasks.md / app/curation/treated_layer.py:32 (versioning)"
+      ],
+      "created": "2026-07-27T02:07:11Z",
+      "last_seen": "2026-07-27T02:07:11Z"
+    },
+    {
+      "id": "L-003",
+      "key": "spec_deviation::when a calculation formula branches on a domain value not yet confirmed by the real data source add a test case that forces the ambiguous branch to diverge from the default path so the documented assumption is provably implemented and not just described in a comment",
+      "text": "When a calculation formula branches on a domain value not yet confirmed by the real data source, add a test case that forces the ambiguous branch to diverge from the default path, so the documented assumption is provably implemented and not just described in a comment.",
+      "signal": "spec_deviation",
+      "scope": "aggregation",
+      "status": "candidate",
+      "features": [
+        "ingestao-curadoria"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "SPEC_DEVIATION (T12/T13) tasks.md / app/aggregation/indicators.py:1-18 (aggregation)"
+      ],
+      "created": "2026-07-27T02:07:15Z",
+      "last_seen": "2026-07-27T02:07:15Z"
+    },
+    {
+      "id": "L-004",
+      "key": "ac_gap::when an edge case has a unit test at the domain layer add the equivalent integration route level test too since unit coverage does not guarantee the http layer wires the same error path correctly",
+      "text": "When an edge case has a unit test at the domain layer, add the equivalent integration/route-level test too, since unit coverage does not guarantee the HTTP layer wires the same error path correctly.",
+      "signal": "ac_gap",
+      "scope": "ingestion",
+      "status": "candidate",
+      "features": [
+        "ingestao-curadoria"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "tests/integration/test_ingestion_endpoint.py (missing corrupted-CSV case) (ingestion)"
+      ],
+      "created": "2026-07-27T02:07:37Z",
+      "last_seen": "2026-07-27T02:07:37Z"
+    }
+  ]
+}
