@@ -30,7 +30,7 @@ indicadores (ING-09) e por isso nao compoe o golden data acima.
 """
 
 import csv
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -59,7 +59,7 @@ def _fmt(year: int, month: int, day: int) -> str:
 
 
 def build_rows(today: date | None = None) -> list[dict]:
-    today = today or date.today()
+    today = today or datetime.now(UTC).date()
     closed_year, closed_month = _previous_month(today)
     open_year, open_month = today.year, today.month
 

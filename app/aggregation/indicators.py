@@ -16,7 +16,7 @@ golden data documentado em scripts/generate_fixture.py. Assumido: qualquer valor
 oficial (inflando o resultado) e como nao resolvida no indice estrito.
 """
 
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 from app.db.connection import DEFAULT_DB_PATH, get_connection
@@ -56,8 +56,10 @@ def _read_treated_rows(
 
 
 def _response_days(data_abertura: str, data_resposta: str) -> int:
-    abertura = datetime.strptime(data_abertura, "%Y-%m-%d")
-    resposta = datetime.strptime(data_resposta, "%Y-%m-%d")
+    # date.fromisoformat em vez de datetime.strptime: datas de reclamacao sao datas
+    # de calendario sem componente de hora/timezone (evita ruff DTZ007).
+    abertura = date.fromisoformat(data_abertura)
+    resposta = date.fromisoformat(data_resposta)
     return (resposta - abertura).days
 
 
