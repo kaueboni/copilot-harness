@@ -1,0 +1,7 @@
+empresa,segmento,assunto,uf,data_abertura,data_resposta,resultado,nota_satisfacao
+Empresa X S.A.,Telecomunicacoes,Cobranca indevida,SP,2026-06-01,2026-06-05,Resolvido,8
+EMPRESA X SA,Telecomunicacoes,Atraso na entrega,SP,2026-06-03,2026-06-10,Resolvido,6
+Empresa X S.A.,Telecomunicacoes,Cobranca indevida,SP,2026-06-01,2026-06-05,Resolvido,8
+Empresa X S.A.,Telecomunicacoes,Produto com defeito,RJ,2026-06-10,2026-06-20,Nao Resolvido,
+Empresa Y Ltda,Varejo,Entrega atrasada,MG,2026-06-15,2026-06-18,Resolvido,9
+Empresa X S.A.,Telecomunicacoes,Reclamacao em aberto,SP,2026-07-05,,Em Analise,
