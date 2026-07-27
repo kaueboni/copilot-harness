@@ -99,3 +99,62 @@ def test_calculate_refuses_open_month_with_explicit_error(tmp_path):
 
     with pytest.raises(ValueError):
         calculate(treated_version_id, OPEN_PERIOD, db_path=db_path)
+
+
+def _store_treated_version_with_rows(db_path, rows):
+    """Cria uma versao tratada sintetica (sem passar pelo pipeline bruto/T5) para
+    exercitar diretamente a agregacao com dados de teste isolados."""
+    conn = get_connection(db_path)
+    try:
+        now = datetime.now(UTC).isoformat()
+        cursor = conn.execute(
+            "INSERT INTO dataset_versions (layer, created_at, row_count, status) "
+            "VALUES ('tratado', ?, ?, 'ready')",
+            (now, len(rows)),
+        )
+        treated_version_id = cursor.lastrowid
+        conn.executemany(
+            "INSERT INTO tratado_reclamacoes "
+            "(version_id, empresa_entidade_id, segmento, data_abertura, data_resposta, "
+            "resultado, nota_satisfacao) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [(treated_version_id, *row) for row in rows],
+        )
+        conn.commit()
+    finally:
+        conn.close()
+    return treated_version_id
+
+
+def test_calculate_indice_oficial_and_estrito_diverge_with_inconclusive_resultado(
+    tmp_path,
+):
+    db_path = tmp_path / "test.db"
+    migrate(db_path)
+
+    # 3 reclamacoes no mes fechado: 1 Resolvido, 1 Nao Resolvido, 1 com resultado
+    # inconclusivo ("Em Analise") - nao presente no fixture golden de T5.
+    treated_version_id = _store_treated_version_with_rows(
+        db_path,
+        [
+            (1, "Telecomunicacoes", f"{CLOSED_PERIOD}-01", f"{CLOSED_PERIOD}-05", "Resolvido", 8),
+            (
+                1,
+                "Telecomunicacoes",
+                f"{CLOSED_PERIOD}-02",
+                f"{CLOSED_PERIOD}-06",
+                "Nao Resolvido",
+                4,
+            ),
+            (1, "Telecomunicacoes", f"{CLOSED_PERIOD}-03", f"{CLOSED_PERIOD}-07", "Em Analise", 5),
+        ],
+    )
+
+    version_id = calculate(treated_version_id, CLOSED_PERIOD, db_path=db_path)
+
+    row = _indicators_by_segmento(db_path, version_id, "Telecomunicacoes")
+    # oficial conta "Resolvido" + o valor inconclusivo como resolvida -> 2/3
+    assert row[0] == pytest.approx(2 / 3, abs=1e-4)
+    # estrito conta apenas "Resolvido" como resolvida -> 1/3
+    assert row[1] == pytest.approx(1 / 3, abs=1e-4)
+    assert row[0] != row[1]
+
